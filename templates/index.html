@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Meteran</title>
+</head>
+<body>
+  <h2>Hasil Pembacaan Meteran</h2>
+  <p>Angka: <strong>{{ data.angka }}</strong></p>
+  <p>Waktu: <strong>{{ data.waktu }}</strong></p>
+  {% if data.gambar %}
+    <img src="{{ data.gambar }}" alt="Foto Meteran" width="300">
+  {% else %}
+    <p>Tidak ada gambar</p>
+  {% endif %}
+</body>
+</html>
