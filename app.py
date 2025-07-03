@@ -16,7 +16,8 @@ def update_data():
     json_data = request.json
     data_terakhir["angka"] = json_data.get("angka", "--")
     data_terakhir["waktu"] = json_data.get("waktu", datetime.now().strftime('%Y-%m-%d %H:%M'))
-    data_terakhir["gambar"] = json_data.get("gambar", "")  # Optional
+    data_terakhir["gambar"] = json_data.get("gambar", "")
+    print(f"[INFO] Data diperbarui: {data_terakhir}")
     return jsonify({"status": "success", "data": data_terakhir})
 
 @app.route('/data', methods=['GET'])
