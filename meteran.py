@@ -2,18 +2,29 @@ import cv2
 import pytesseract
 import requests
 from datetime import datetime
+from db import ambil_semua_user
+import os
+from dotenv import load_dotenv
 
-# Konfigurasi Bot Telegram
-BOT_TOKEN = '7810684120:AAF0P7dq2_BCReDQSYhrntTf6sWM24MfFH8'
-CHAT_ID = '6669229070'
+# Load token & web url dari file .env
+load_dotenv()
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+WEB_URL = os.getenv('WEB_URL')
 
 def kirim_ke_telegram(pesan):
     url = f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage'
-    data = {'chat_id': CHAT_ID, 'text': pesan}
-    requests.post(url, data=data)
+    daftar_user = ambil_semua_user()
+
+    for chat_id in daftar_user:
+        data = {'chat_id': chat_id, 'text': pesan}
+        try:
+            requests.post(url, data=data)
+            print(f"[INFO] Berhasil kirim ke {chat_id}")
+        except Exception as e:
+            print(f"[ERROR] Gagal kirim ke {chat_id}: {e}")
 
 def kirim_ke_web(angka):
-    url = url = 'https://web-meteran.onrender.com/update' 
+    url = f'{WEB_URL}/update'
     data = {'angka': angka, 'waktu': datetime.now().strftime('%Y-%m-%d %H:%M')}
     requests.post(url, json=data)
 

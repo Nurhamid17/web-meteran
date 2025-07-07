@@ -2,8 +2,13 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from datetime import datetime
 from db import init_db, tambah_user, ambil_semua_user
+import os
+from dotenv import load_dotenv
 
-BOT_TOKEN = '7810684120:AAF0P7dq2_BCReDQSYhrntTf6sWM24MfFH8'
+# Load token dari .env
+load_dotenv()
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+WEB_URL = os.getenv('WEB_URL')
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
@@ -23,7 +28,7 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     daftar = ambil_semua_user()
     for chat_id in daftar:
         try:
-            await context.bot.send_message(chat_id=chat_id,text="🔔 Pembacaan meteran terbaru telah tersedia! Silakan buka link dashboard untuk melihat hasilnya.")
+            await context.bot.send_message(chat_id=chat_id, text="🔔 Pembacaan meteran terbaru telah tersedia! Silakan buka link dashboard untuk melihat hasilnya.")
         except Exception as e:
             print(f"[ERROR] Gagal kirim ke {chat_id}: {e}")
 
